@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { AuditService } from './audit.service';
+import { requestContext } from '../../request-context';
 
 @Injectable()
 @EventSubscriber()
@@ -20,6 +21,7 @@ export class AuditSubscriber implements EntitySubscriberInterface {
   }
 
   async afterInsert(event: InsertEvent<any>): Promise<void> {
+    if (this.shouldSkipAudit()) return;
     await this.auditService.create({
       userId: this.getUserIdFromContext(),
       entity: event.metadata.tableName,
@@ -28,6 +30,7 @@ export class AuditSubscriber implements EntitySubscriberInterface {
   }
 
   async afterUpdate(event: UpdateEvent<any>): Promise<void> {
+    if (this.shouldSkipAudit()) return;
     await this.auditService.create({
       userId: this.getUserIdFromContext(),
       entity: event.metadata.tableName,
@@ -37,6 +40,7 @@ export class AuditSubscriber implements EntitySubscriberInterface {
   }
 
   async afterRemove(event: RemoveEvent<any>): Promise<void> {
+    if (this.shouldSkipAudit()) return;
     await this.auditService.create({
       userId: this.getUserIdFromContext(),
       entity: event.metadata.tableName,
@@ -46,7 +50,16 @@ export class AuditSubscriber implements EntitySubscriberInterface {
   }
 
   private getUserIdFromContext(): string | undefined {
-    const store = (global as any).requestContext;
+    const store = requestContext.getStore();
     return store?.get('userId') ?? undefined;
+  }
+
+  private shouldSkipAudit(): boolean {
+    const store = requestContext.getStore();
+    const path = store?.get('path');
+    const method = store?.get('method');
+
+    if (path === '/users' && method === 'POST') return true;
+    return false;
   }
 }

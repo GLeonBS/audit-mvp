@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuditModule } from './modules/audit/audit.module';
 import { EventModule } from './modules/event/event.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { EventModule } from './modules/event/event.module';
     UserModule,
     AuditModule,
     EventModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

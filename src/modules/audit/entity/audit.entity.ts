@@ -16,4 +16,4 @@ export class Audit extends Document {
   action: 'CREATE' | 'UPDATE' | 'DELETE';
 }
 
-export const AuditLogSchema = SchemaFactory.createForClass(Audit);
+export const AuditSchema = SchemaFactory.createForClass(Audit);

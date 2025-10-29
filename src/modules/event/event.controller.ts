@@ -1,20 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards, } from '@nestjs/common';
 import { EventService } from './event.service';
 import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('events')
-@UseGuards(AuthGuard) // 🔒 Protege todas as rotas
+@UseGuards(AuthGuard)
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
