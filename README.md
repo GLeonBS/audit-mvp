@@ -254,9 +254,10 @@ docker-compose down -v
 - [ ] Implementar rate limiting
 - [ ] Adicionar logging estruturado (Winston/Pino)
 
-## Licença
+## License
 
-UNLICENSED - Uso privado
+This project is licensed under the MIT License.
+See the [LICENSE](./LICENSE) file for details.
 
 ## Autor
 
