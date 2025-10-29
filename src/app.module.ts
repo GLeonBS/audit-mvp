@@ -5,6 +5,7 @@ import { UserModule } from './modules/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuditModule } from './modules/audit/audit.module';
+import { EventModule } from './modules/event/event.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuditModule } from './modules/audit/audit.module';
     MongooseModule.forRoot('mongodb://localhost:28017/audit_mvp'),
     UserModule,
     AuditModule,
+    EventModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,15 +1,16 @@
-import { AsyncLocalStorage } from 'async_hooks';
+import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
+import { requestContext } from './request-context';
 
-export const requestContext = new AsyncLocalStorage<Map<string, any>>();
+@Injectable()
+export class ContextMiddleware implements NestMiddleware {
+  use(req: Request & { user: any }, res: Response, next: NextFunction) {
+    const store = new Map<string, any>();
 
-export function contextMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
-  const store = new Map<string, any>();
-  if (req.user?.id) store.set('userId', req.user.id);
+    if (req.user?.id) {
+      store.set('userId', req.user.id);
+    }
 
-  requestContext.run(store, () => next());
+    requestContext.run(store, () => next());
+  }
 }
