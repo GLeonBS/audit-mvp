@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: audit-postgres
+    restart: always
+    ports:
+      - "5450:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: audit_mvp
+    volumes:
+      - audit_pg_data:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo:7
+    container_name: audit-mongo
+    restart: always
+    ports:
+      - "28017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: audit_mvp
+    volumes:
+      - audit_mongo_data:/data/db
+
+volumes:
+  audit_pg_data:
+    name: audit_pg_volume
+  audit_mongo_data:
+    name: audit_mongo_volume
